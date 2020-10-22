@@ -14,24 +14,26 @@ let comida = {
     y: Math.floor(Math.random() * (canvas.height/box)) * box
 }
 
+let colors =[{bg: "#79856d", snake: "#455140"},{bg: "#8eb268",snake:"#34391b"}];
+color = colors[0];
+
 let direction;
 let pts = 0;
 
-function criaBG() {
-    context.fillStyle = "lightgreen";
+let pausado = false;
+let telaAgora;
+
+let velocidade = 150;
+
+function renderizaBG() {
+    context.fillStyle = color.bg;
     context.fillRect(0,0,canvas.width,canvas.height);
 }
 
-function renderizaCobra () {
+function renderizaCobra () { 
     for(i=0; i < snake.length; i++){
-        context.fillStyle = "white";
-        context.fillRect(snake[i].x - 1, snake[i].y -1, box+2, box+2);
-
-        context.fillStyle = "green";
-        context.fillRect(snake[i].x, snake[i].y, box, box);
-
-
-        
+            context.fillStyle = color.snake;
+            context.fillRect(snake[i].x + 1, snake[i].y + 1, box - 2, box - 2);    
     }
 }
 
@@ -84,7 +86,6 @@ function movimentaCobra(){
     if (snakeX > (canvas.width - box)) snakeX = 0;
     
     if (direction == "right" || direction == "left" || direction == "up" || direction == "down"){
-    // caso o valor da direção seja falso (null, undefined, NaN, string vazia, 0 ou false), nada será feito. fonte: https://stackoverflow.com/questions/5515310/is-there-a-standard-function-to-check-for-null-undefined-or-blank-variables-in
     // salvando a nova direção da cabeça da cobra
         let newHead = {
             x: snakeX,
@@ -109,7 +110,7 @@ function checaLocalComida(){
     comida.y = Math.floor(Math.random() * (canvas.height/box)) * box;
 
     while (dentroCobra) {
-        for (let i=0;i<snake.length;i++) {
+        for (let i=0 ; i<snake.length ; i++) {
             if (snake[i].x == comida.x && snake[i].y == comida.y) {
                 comida.x = Math.floor(Math.random() * (canvas.width/box)) * box;
                 comida.y = Math.floor(Math.random() * (canvas.height/box)) * box;
@@ -122,26 +123,23 @@ function checaLocalComida(){
 
 function renderizaComida(){   
     context.fillStyle = "red";
-    context.fillRect(comida.x, comida.y, box, box);
-
+    context.fillRect(comida.x + 1, comida.y + 1, box - 2, box - 2);
 }
 
 function pontuacao(){
     if (snake[0].x == comida.x && snake[0].y == comida.y){
         checaLocalComida();
-
         if (direction == "right" || direction == "left" || direction == "up" || direction == "down"){
             // evita pontuação quando a comida é gerada pela primeira vez
             snake.push(snake[(snake.length) - 1]);
             pts += 1;
             console.log(pts);
+            document.getElementById("pontuacao").innerHTML = "Pontos: " + pts ;
         }
-
-
     }
 }
 
-function evitaColisao(){
+function evitaAutoColisao(){
     if (direction == "right" || direction == "left" || direction == "up" || direction == "down" && snake.length >= 4){
         for (let i=3;i<snake.length;i++) {
             if (snake[0].x == snake[i].x  && snake[0].y == snake[i].y) {
@@ -152,26 +150,97 @@ function evitaColisao(){
     }
 }
 
+
+
 function iniciaJogo() {
-
-    for (let i=3;i<snake.length;i++) {
-        if (snake[0].x == snake[i].x  && snake[0].y == snake[i].y) {
-            clearInterval(iniciaJogo);}}
-
-    criaBG ();
-    renderizaCobra();   
+    renderizaBG ();
     movimentaCobra();
+    renderizaCobra();   
     pontuacao();
     renderizaComida();
-    evitaColisao();
-
-
-
+    evitaAutoColisao();
 }
-
-
-var jogo = setInterval(iniciaJogo,150);
+var jogo = setInterval(iniciaJogo,velocidade);
 
 
 
 
+function reinciaJogo(){
+    snake = [];
+    snake[0] = {
+        x: parseInt((canvas.width/2),10),
+        y: parseInt((canvas.height/2),10)
+    };
+    pts = 0;
+    direction = 0;
+    document.getElementById("pontuacao").innerHTML = "Pontos: 0";
+    checaLocalComida();
+    jogo = setInterval(iniciaJogo,150);
+    pausado = false;
+}
+document.getElementById("new_game").addEventListener("click", reinciaJogo);
+
+function pausarJogo(){
+    if (pausado){
+        snake = telaAgora.SnakeNow;
+        comida = telaAgora.comidaNow;
+        pts = telaAgora.ptsNow;
+        direction = telaAgora.directionNow;
+        jogo = setInterval(iniciaJogo,150);
+        pausado = false;
+    }else {
+        telaAgora = {
+            SnakeNow: snake,
+            comidaNow: comida,
+            ptsNow: pts,
+            directionNow: direction
+        }
+        pausado = true;
+        clearInterval(jogo);
+    }
+}
+document.getElementById("pause_game").addEventListener("click",pausarJogo);
+
+function mudaCor(){
+    if (color == colors[0]){
+        color = colors[1];
+        if (pausarJogo){
+            renderizaBG();
+            renderizaCobra();
+            renderizaComida();
+        }
+    }else{
+        color = colors[0];
+        if (pausarJogo){
+            renderizaBG();
+            renderizaCobra();
+            renderizaComida();
+        }
+    }
+}
+document.getElementById("muda_cor").addEventListener("click",mudaCor);
+
+function mudaVelocidade(e){
+    if (e.id == "diminuir"){
+        velocidade += 10;
+        clearInterval(jogo);
+        jogo = setInterval(iniciaJogo,velocidade);
+        console.log(velocidade);
+    }
+    if (e.id == "aumentar"){
+        velocidade -= 10;
+        clearInterval(jogo);
+        jogo = setInterval(iniciaJogo,velocidade);
+        console.log(velocidade);
+    }
+    if (e.id =="reset"){
+        velocidade = 150;
+        clearInterval(jogo);
+        jogo = setInterval(iniciaJogo,velocidade);
+        console.log(velocidade);
+    }
+    
+}
+document.getElementById("aumentar").addEventListener("click",function(){mudaVelocidade(this)});
+document.getElementById("diminuir").addEventListener("click",function(){mudaVelocidade(this)});
+document.getElementById("reset").addEventListener("click",function(){mudaVelocidade(this)});

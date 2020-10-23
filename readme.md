@@ -4,7 +4,7 @@ Jogo da cobrinha feito com base na aula da [Digital Innovation One](https://digi
 
 Neste projeto foi trabalhado o uso da linguagem JavaScript.
 
-####Melhorias em relação a aula
+#### Melhorias em relação a aula
 - É possível reinicar o jogo sem reiniciar a página;
 - Opção de pausar o jogo;
 - Opção de esquema de cores;

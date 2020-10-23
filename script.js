@@ -145,6 +145,10 @@ function evitaAutoColisao(){
             if (snake[0].x == snake[i].x  && snake[0].y == snake[i].y) {
                 clearInterval(jogo);
                 console.log("colisão");
+                context.font = "30px Arial";
+                context.strokeText("Game Over",198.5, 264.5);
+                
+
             }    
         }
     }
@@ -175,12 +179,14 @@ function reinciaJogo(){
     direction = 0;
     document.getElementById("pontuacao").innerHTML = "Pontos: 0";
     checaLocalComida();
+    clearInterval(jogo);
     jogo = setInterval(iniciaJogo,150);
     pausado = false;
+    document.getElementById("pause_game").innerHTML = "Pause";
 }
 document.getElementById("new_game").addEventListener("click", reinciaJogo);
 
-function pausarJogo(){
+function pausarJogo(e){
     if (pausado){
         snake = telaAgora.SnakeNow;
         comida = telaAgora.comidaNow;
@@ -188,6 +194,7 @@ function pausarJogo(){
         direction = telaAgora.directionNow;
         jogo = setInterval(iniciaJogo,150);
         pausado = false;
+        e.innerHTML = "Pause";
     }else {
         telaAgora = {
             SnakeNow: snake,
@@ -197,9 +204,10 @@ function pausarJogo(){
         }
         pausado = true;
         clearInterval(jogo);
+        e.innerHTML = "Continue";
     }
 }
-document.getElementById("pause_game").addEventListener("click",pausarJogo);
+document.getElementById("pause_game").addEventListener("click",function(){pausarJogo(this)});
 
 function mudaCor(){
     if (color == colors[0]){

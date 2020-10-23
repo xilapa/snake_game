@@ -11,21 +11,25 @@
 </head>
 <body>
     <div class="borda">
+        <div class="titulo">Snake Game</div>
         <div class="wrapper">
-            <div class="info">
-                <div id="pontuacao">Pontos: 0</div>
-                <button id="new_game"> Novo Jogo</button>
-                <button id="pause_game">Pause</button>
-                <button id="muda_cor">Cor</button>
-                <div id="velocidade">
-                    <p>Velocidade</p>
-                    <div class="botao_junto">
-                        <button id="aumentar">+</button>
-                        <button id="diminuir">--</button>
+            <div class="info_wrapper">
+                <div class="info_content">
+                    <div id="pontuacao" class="margem">Pontos: 0</div>
+                    <button id="new_game" class="margem"> Novo Jogo</button>
+                    <button id="pause_game" class="margem">Pause</button>
+                    <button id="muda_cor" class="margem">Cor</button>
+                    <div id="velocidade" class="margem">
+                        <p>Velocidade</p>
+                        <div class="botao_junto">
+                            <button id="aumentar" class="margem">+</button>
+                            <button id="diminuir" class="margem">-</button>
+                        </div>
+                        <button id="reset">Reset</button>
                     </div>
-                    <button id="reset">Reset</button>
                 </div>
             </div>
+            
             <canvas class="game" id="game" width="544" height="544"></canvas>
         </div>
     </div>

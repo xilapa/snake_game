@@ -6,39 +6,101 @@
 body {
     background-color: #eeeeee;
     color: #cdc9c3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
 }
 
 .borda {
-    margin: 2rem;
+    margin-top: 3px;
     padding: 2rem;
+    padding-top: 1rem;
     background-color: #555555;
     overflow: visible;
     border-radius: 15px;
-    min-height: 96vh;
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .wrapper {
     position: relative;
-;
+
 }
 
 .game {
     display: block;
     position: relative;
+    float: left;
 }
 
-.info {
+.info_wrapper {
+    float: left;
+    font-size: 18px;
+    font-weight: 550;
+}
+
+.info_content {
     display: flex;
-    justify-content: space-around;   
+    flex-direction: column;
+    justify-content: flex-start;   
     align-items: center;  
     background-color: #646464;
+    min-height: 544px;
     
 }
+
+.margem{
+    margin: 0 5px 15px 5px;
+}
+
+.margem:nth-child(1){
+    margin-top: 5px;
+}
+
 
 #velocidade {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+button {
+    border: none;
+    outline: none;
+    padding: 2px;
+    min-width: 70px;
+    background-color: #8db596;
+    color: #eeeeee;
+}
+
+button:hover {
+    background-color: #b7de6fe1;
+}
+
+#pontuacao {
+    margin-top: 15px;
+}
+
+
+#aumentar, #diminuir {
+    min-width: 30px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+.botao-junto {
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
 }

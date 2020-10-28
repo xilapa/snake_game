@@ -13,6 +13,10 @@ Neste projeto foi trabalhado o uso da linguagem JavaScript.
 - A comida não é gerada dentro da cobrinha;
 - A cobrinha não some ao percorrer a última linha do canvas.
 
+#### Jogue agora!
+
+[https://xilapa.github.io/snake_game/](https://xilapa.github.io/snake_game/ "https://xilapa.github.io/snake_game/")
+
 #### Preview
 
 [![Desktop](https://raw.githubusercontent.com/xilapa/snake_game/main/preview.png "Preview")](https://raw.githubusercontent.com/xilapa/snake_game/main/preview.png "Preview")
